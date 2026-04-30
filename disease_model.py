@@ -5,7 +5,7 @@ import joblib
 app = Flask(__name__)
 
 # Load models / encoders
-Ran_model = joblib.load("outcome_model.pkl")
+Ran_model = joblib.load("Ran_model.pkl")
 disease_Rmodel = joblib.load("disease_model.pkl")
 
 label_encoders = joblib.load("label_encoders.pkl")
