@@ -1,0 +1,12 @@
+.vscode/
+venv/
+PROMT.md
+Disease_symptom_and_patient_profile_dataset.csv
+disease_model.pkl
+disease_encoder.pkl
+feature_columns.pkl
+label_encoders.pkl
+one_hot_encoder.pkl
+outcome_model.pkl
+outcome_encoder.pkl
+pgdisease.session.sql

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical AI</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #ffecec;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR (MOBILE FRIENDLY) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: red;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 1px;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            margin: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        section {
+            padding: 90px 15px;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            background: #ffdede;
+            padding: 80px 15px;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+        }
+
+        .hero p {
+            font-size: 14px;
+        }
+
+        /* GRID (AUTO RESPONSIVE) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        /* TWO COLUMN LAYOUT */
+        .two-column-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .symptom-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #ff6b6b;
+            font-weight: bold;
+            font-size: 15px;
+            color: #333;
+        }
+
+        /* FORM */
+        .form-container {
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px;
+            width: 45%;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px 5px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: darkred;
+        }
+
+        /* RESULT */
+        .result {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .red { color: red; }
+        .green { color: green; }
+
+        /* APPLICATIONS SECTION */
+        .app-card {
+            background: white;
+            padding: 20px;
+            margin: 15px auto;
+            border-radius: 10px;
+            border-left: 5px solid red;
+            max-width: 700px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .app-card h3 {
+            color: red;
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .app-card p {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .app-left {
+            margin-left: 0;
+        }
+
+        .app-right {
+            margin-right: 0;
+        }
+
+        /* DROPDOWN BUTTON */
+        .disease-header {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .dropbtn {
+            background: red;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dropdown-content {
+            display: none;
+            background: white;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .dropdown-content p {
+            margin: 5px 0;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* 📱 MOBILE RESPONSIVE FIX */
+        @media (max-width: 600px) {
+
+            nav {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .hero h1 {
+                font-size: 18px;
+            }
+
+            .card {
+                font-size: 13px;
+                padding: 10px;
+            }
+
+            .two-column-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .column {
+                min-width: 100%;
+            }
+
+            .symptom-card {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            input, select {
+                margin: 5px 0;
+            }
+
+            .app-card {
+                max-width: 100%;
+                margin: 10px 0;
+                padding: 15px;
+            }
+
+            .app-card h3 {
+                font-size: 16px;
+            }
+
+            .app-card p {
+                font-size: 13px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+    <div>Medical AI</div>
+    <div>
+        <a href="#home">Home</a>
+        <a href="#predict">Predict</a>
+        <a href="#app">Apps</a>
+    </div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="hero">
+    <h1>Early Disease Prediction Model</h1>
+    <p>This model predicts the likelihood of medical conditions by analyzing patient health records <br> and learning patterns between patient profiles and diagnostic outcomes.</p>
+    
+    <!-- SYMPTOM CARDS - 4 ON LEFT, 4 ON RIGHT -->
+    <div class="two-column-container">
+        <div class="column">
+            <div class="symptom-card">Age</div>
+            <div class="symptom-card">Gender</div>
+            <div class="symptom-card">Fever</div>
+            <div class="symptom-card">Cough</div>
+        </div>
+        <div class="column">
+            <div class="symptom-card">Fatigue</div>
+            <div class="symptom-card">Difficulty Breathing</div>
+            <div class="symptom-card">Blood Pressure</div>
+            <div class="symptom-card">Cholesterol</div>
+        </div>
+    </div>
+
+    <!-- TOTAL DISEASE BUTTON -->
+    <div class="disease-header">
+        <button class="dropbtn" onclick="toggleDiseases()">
+            Total Diseases: 116 ▼
+        </button>
+    </div>
+
+    <div id="diseaseList" class="dropdown-content">
+
+        <p>Influenza</p>
+        <p>Common Cold</p>
+        <p>Eczema</p>
+        <p>Asthma</p>
+        <p>Hyperthyroidism</p>
+        <p>Allergic Rhinitis</p>
+        <p>Anxiety Disorders</p>
+        <p>Diabetes</p>
+        <p>Gastroenteritis</p>
+        <p>Pancreatitis</p>
+        <p>Rheumatoid Arthritis</p>
+        <p>Depression</p>
+        <p>Liver Cancer</p>
+        <p>Stroke</p>
+        <p>Urinary Tract Infection</p>
+        <p>Dengue Fever</p>
+        <p>Hepatitis</p>
+        <p>Kidney Cancer</p>
+        <p>Migraine</p>
+        <p>Muscular Dystrophy</p>
+        <p>Sinusitis</p>
+        <p>Ulcerative Colitis</p>
+        <p>Bipolar Disorder</p>
+        <p>Bronchitis</p>
+        <p>Cerebral Palsy</p>
+        <p>Colorectal Cancer</p>
+        <p>Hypertensive Heart Disease</p>
+        <p>Multiple Sclerosis</p>
+        <p>Myocardial Infarction (Heart Attack)</p>
+        <p>Urinary Tract Infection (UTI)</p>
+        <p>Osteoporosis</p>
+        <p>Pneumonia</p>
+        <p>Atherosclerosis</p>
+        <p>Chronic Obstructive Pulmonary Disease</p>
+        <p>Epilepsy</p>
+        <p>Hypertension</p>
+        <p>Obsessive-Compulsive Disorder</p>
+        <p>Psoriasis</p>
+        <p>Rubella</p>
+        <p>Cirrhosis</p>
+        <p>Conjunctivitis (Pink Eye)</p>
+        <p>Liver Disease</p>
+        <p>Malaria</p>
+        <p>Spina Bifida</p>
+        <p>Chronic Kidney Disease</p>
+        <p>Osteoarthritis</p>
+        <p>Klinefelter Syndrome</p>
+        <p>Acne</p>
+        <p>Brain Tumor</p>
+        <p>Cystic Fibrosis</p>`
+        <p>Glaucoma</p>
+        <p>Rabies</p>
+        <p>Chickenpox</p>
+        <p>Coronary Artery Disease</p>
+        <p>Eating Disorders (Anorexia)</p>
+        <p>Fibromyalgia</p>
+        <p>Hemophilia</p>
+        <p>Hypoglycemia</p>
+        <p>Lymphoma</p>
+        <p>Tuberculosis</p>
+        <p>Lung Cancer</p>
+        <p>Hypothyroidism</p>
+        <p>Autism Spectrum Disorder (ASD)</p>
+        <p>Crohn's Disease</p>
+        <p>Hyperglycemia</p>
+        <p>Melanoma</p>
+        <p>Ovarian Cancer</p>
+        <p>Turner Syndrome</p>
+        <p>Zika Virus</p>
+        <p>Cataracts</p>
+        <p>Pneumocystis Pneumonia (PCP)</p>
+        <p>Scoliosis</p>
+        <p>Sickle Cell Anemia</p>
+        <p>Tetanus</p>
+        <p>Anemia</p>
+        <p>Cholera</p>
+        <p>Endometriosis</p>
+        <p>Sepsis</p>
+        <p>Sleep Apnea</p>
+        <p>Down Syndrome</p>
+        <p>Ebola Virus</p>
+        <p>Lyme Disease</p>
+        <p>Pancreatic Cancer</p>
+        <p>Pneumothorax</p>
+        <p>Appendicitis</p>
+        <p>Esophageal Cancer</p>
+        <p>HIV/AIDS</p>
+        <p>Marfan Syndrome</p>
+        <p>Parkinson's Disease</p>
+        <p>Hemorrhoids</p>
+        <p>Polycystic Ovary Syndrome (PCOS)</p>
+        <p>Systemic Lupus Erythematosus</p>
+        <p>Typhoid Fever</p>
+        <p>Breast Cancer</p>
+        <p>Measles</p>
+        <p>Osteomyelitis</p>
+        <p>Polio</p>
+        <p>Chronic Kidney Disease</p>
+        <p>Hepatitis B</p>
+        <p>Prader-Willi Syndrome</p>
+        <p>Thyroid Cancer</p>
+        <p>Bladder Cancer</p>
+        <p>Otitis Media (Ear Infection)</p>
+        <p>Tourette Syndrome</p>
+        <p>Alzheimer's Disease</p>
+        <p>Chronic Obstructive Pulmonary Disease (COPD)</p>
+        <p>Dementia</p>
+        <p>Diverticulitis</p>
+        <p>Mumps</p>
+        <p>Cholecystitis</p>
+        <p>Prostate Cancer</p>
+        <p>Schizophrenia</p>
+        <p>Gout</p>
+        <p>Testicular Cancer</p>
+        <p>Tonsillitis</p>
+        <p>Williams Syndrome</p>
+
+    </div>
+
+</section>
+
+<!-- PREDICTION -->
+<section id="predict">
+
+    <h2 style="text-align:center;">Prediction</h2>
+
+    <div class="form-container">
+
+        <form method="POST" id="predictionForm">
+
+            <!-- SYMPTOM INPUTS - 4 ON LEFT, 4 ON RIGHT -->
+            <div class="two-column-container">
+                <div class="column">
+                    <input name="age" type="number" placeholder="Age" required>
+                    
+                    <select name="gender" required>
+                        <option value="">Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+
+                    <select name="fever" required>
+                        <option value="">Fever</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+
+                    <select name="cough" required>
+                        <option value="">Cough</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+                </div>
+
+                <div class="column">
+                    <select name="fatigue" required>
+                        <option value="">Fatigue</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+
+                    <select name="difficulty_breathing" required>
+                        <option value="">Difficulty Breathing</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+
+                    <select name="blood_pressure" required>
+                        <option value="">Blood Pressure</option>
+                        <option>Low</option>
+                        <option>Normal</option>
+                        <option>High</option>
+                    </select>
+
+                    <select name="cholesterol" required>
+                        <option value="">Cholesterol</option>
+                        <option>Low</option>
+                        <option>Normal</option>
+                        <option>High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="submit">Predict</button>
+                <button type="button" onclick="clearForm()">Clear</button>
+            </div>
+
+        </form>
+
+        {% if prediction %}
+        <div class="result" id="resultDiv">
+            {% if prediction == "Negative" %}
+                <h2 class="green">Negative</h2>
+                <p style="font-size: 16px; font-weight: bold;">No disease detected.</p>
+                <p style="font-size: 13px; color: #555; margin-top: 10px;">Your health assessment shows no signs of disease at this time. However, please continue to monitor your health and consult with a healthcare professional if symptoms develop.</p>
+            {% else %}
+                <h2 class="red">Positive</h2>
+                <h3>Disease: {{ disease }}</h3>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+
+</section>
+
+<!-- APPLICATION -->
+<section id="app">
+
+    <h2 style="text-align:center;">Applications</h2>
+
+    <!-- Diagnosis Tools -->
+    <div class="app-card app-left">
+        <h3>Diagnosis Tools</h3>
+        <p>This application uses patient symptoms and medical history to estimate possible diseases. It helps in improving the accuracy and speed of medical diagnosis.</p>
+    </div>
+
+    <!-- Symptom Analysis -->
+    <div class="app-card app-right">
+        <h3>Symptom Analysis</h3>
+        <p>It identifies common patterns and combinations of symptoms that are linked to specific diseases in the dataset.</p>
+    </div>
+
+    <!-- Risk Profiling -->
+    <div class="app-card app-left">
+        <h3>Risk Profiling</h3>
+        <p>It evaluates how factors such as age, gender, blood pressure, and cholesterol influence the likelihood of developing certain diseases.</p>
+    </div>
+
+    <!-- AI Training -->
+    <div class="app-card app-right">
+        <h3>AI Training</h3>
+        <p>The dataset is used to train machine learning models that learn the relationship between patient profiles and disease outcomes for prediction purposes.</p>
+    </div>
+
+    <!-- Healthcare Management -->
+    <div class="app-card app-left">
+        <h3>Healthcare Management</h3>
+        <p>It supports planning and management of hospital resources by analyzing patient trends and predicted health conditions.</p>
+    </div>
+
+    <!-- Medical Research -->
+    <div class="app-card app-right">
+        <h3>Medical Research</h3>
+        <p>It assists in studying disease patterns and relationships within patient data to support medical research and improve healthcare understanding.</p>
+    </div>
+
+</section>
+
+<script>
+function toggleDiseases() {
+    var list = document.getElementById("diseaseList");
+    list.style.display = (list.style.display === "block") ? "none" : "block";
+}
+
+function clearForm() {
+    document.getElementById("predictionForm").reset();
+    document.getElementById("resultDiv").style.display = "none";
+}
+</script>
+
+</body>
+</html>
