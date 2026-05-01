@@ -19,14 +19,14 @@ feature_columns = joblib.load("feature_columns.pkl")
 binary_cols = [
     'gender',
     'fever',
-    'cough',
     'fatigue',
-    'difficulty_breathing'
+    'difficulty_breathing',
+    'cough'
 ]
 
 nominal_cols = [
     'blood_pressure',
-    'cholesterol'
+    'cholesterol_level'
 ]
 
 
@@ -79,7 +79,7 @@ def index():
             'fatigue': request.form['fatigue'],
             'difficulty_breathing': request.form['difficulty_breathing'],
             'blood_pressure': request.form['blood_pressure'],
-            'cholesterol': request.form['cholesterol']
+            'cholesterol_level': request.form['cholesterol_level']
         }
 
         prediction, disease = predict_patient(patient_data)
