@@ -1,20 +1,42 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import joblib
+import os
 
 app = Flask(__name__)
 
-# Load models / encoders
-Ran_model = joblib.load("Ran_model.pkl")
-disease_Rmodel = joblib.load("disease_model.pkl")
+# Function to check if models exist, if not train them
+def load_or_train_models():
+    model_files = [
+        "Ran_model.pkl", 
+        "disease_model.pkl",
+        "label_encoders.pkl",
+        "one_hot_encoder.pkl",
+        "outcome_encoder.pkl",
+        "disease_encoder.pkl",
+        "feature_columns.pkl"
+    ]
+    
+    # Check if all model files exist
+    models_exist = all(os.path.exists(f) for f in model_files)
+    
+    if not models_exist:
+        print("Model files not found. Training models...")
+        os.system("python train_models.py")
+    
+    # Load models / encoders
+    Ran_model = joblib.load("Ran_model.pkl")
+    disease_Rmodel = joblib.load("disease_model.pkl")
+    label_encoders = joblib.load("label_encoders.pkl")
+    one_hot_encoder = joblib.load("one_hot_encoder.pkl")
+    outcome_encoder = joblib.load("outcome_encoder.pkl")
+    disease_encoder = joblib.load("disease_encoder.pkl")
+    feature_columns = joblib.load("feature_columns.pkl")
+    
+    return Ran_model, disease_Rmodel, label_encoders, one_hot_encoder, outcome_encoder, disease_encoder, feature_columns
 
-label_encoders = joblib.load("label_encoders.pkl")
-one_hot_encoder = joblib.load("one_hot_encoder.pkl")
-
-outcome_encoder = joblib.load("outcome_encoder.pkl")
-disease_encoder = joblib.load("disease_encoder.pkl")
-
-feature_columns = joblib.load("feature_columns.pkl")
+# Load or train models
+Ran_model, disease_Rmodel, label_encoders, one_hot_encoder, outcome_encoder, disease_encoder, feature_columns = load_or_train_models()
 
 binary_cols = [
     'gender',
@@ -92,4 +114,5 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
